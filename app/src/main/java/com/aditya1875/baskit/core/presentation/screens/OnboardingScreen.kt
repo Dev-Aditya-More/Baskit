@@ -3,6 +3,7 @@ package com.aditya1875.baskit.core.presentation.screens
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.aditya1875.baskit.core.presentation.components.OnboardingPage
 import com.aditya1875.baskit.core.presentation.components.getOnboardingPages
+import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.AuroraBackground
+import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.NoiseOverlay
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,6 +46,8 @@ import kotlinx.coroutines.launch
 fun OnboardingScreen(onFinished: () -> Unit) {
 
     val pages = getOnboardingPages()
+    AuroraBackground()
+    NoiseOverlay()
     OnboardingPager(pages = pages, onDone = onFinished)
 }
 
@@ -63,7 +68,7 @@ fun OnboardingPager(
                 if (pagerState.currentPage < pages.lastIndex) {
                     pagerState.animateScrollToPage(pagerState.currentPage + 1)
                 } else {
-                    pagerState.scrollToPage(0) // loop to start
+                    pagerState.scrollToPage(0)
                 }
             }
         }
@@ -72,11 +77,6 @@ fun OnboardingPager(
     Column(
         Modifier
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFFD4FC79), Color(0xFF96E6A1))
-                )
-            )
         ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -134,7 +134,9 @@ fun OnboardingPager(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.height(48.dp)
             ) {
-                Text(if (pagerState.currentPage < pages.lastIndex) "Next" else "Get Started")
+                Text(
+                    if (pagerState.currentPage < pages.lastIndex) "Next" else "Get Started"
+                )
             }
         }
     }
@@ -153,7 +155,7 @@ fun AnimatedPagerDots(count: Int, currentPage: Int) {
             val size by animateDpAsState(targetValue = if (i == currentPage) 12.dp else 8.dp)
             // Animate color
             val color by animateColorAsState(
-                targetValue = if (i == currentPage) MaterialTheme.colorScheme.primary else Color.Gray.copy(alpha = 0.4f)
+                targetValue = if (i == currentPage) MaterialTheme.colorScheme.secondary else Color.Gray.copy(alpha = 0.4f)
             )
 
             Box(
