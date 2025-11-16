@@ -1,19 +1,50 @@
 package com.aditya1875.baskit.core.data.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Product(
-    val code: String,                       // Barcode (e.g. 3274080005003)
-    val productName: String?,               // Product name
-    val genericName: String?,               // Generic name like "Spring water"
-    val brand: String?,                     // Brand name
-    val quantity: String?,                  // e.g. "1.5 L"
-    val categories: String?,                // Category chain (e.g. Water, Beverages)
-    val ingredientsText: String?,           // Ingredient list (raw text)
-    val allergens: String?,                 // Allergen info
-    val nutriments: Nutriments?,            // Nutrition details (nested model)
-    val nutritionGrade: String?,            // e.g. "A", "B", "C" etc.
-    val ecoscoreGrade: String?,             // Environmental score grade
-    val imageFrontUrl: String?,             // Product image
-    val imageIngredientsUrl: String?,       // Ingredients image
-    val imageNutritionUrl: String?,         // Nutrition label image
-    val imagePackagingUrl: String?          // Packaging image
+    @SerializedName("code")
+    val code: String,
+
+    @SerializedName("abbreviated_product_name")
+    val productName: String?,
+
+    @SerializedName("generic_name")
+    val genericName: String?,
+
+    @SerializedName("brands")
+    val brand: String?,
+
+    @SerializedName("quantity")
+    val quantity: String?,
+
+    @SerializedName("categories")
+    val categories: String?,
+
+    @SerializedName("ingredients_text")
+    val ingredientsText: String?,
+
+    @SerializedName("allergens")
+    val allergens: String?,
+
+    @SerializedName("nutriments")
+    val nutriments: Nutriments?,
+
+    @SerializedName("nutrition_grade_fr")
+    val nutritionGrade: String?,
+
+    @SerializedName("ecoscore_grade")
+    val ecoscoreGrade: String?,
+
+    @SerializedName("image_front_url")
+    val imageFrontUrl: String?,
+
+    @SerializedName("image_ingredients_url")
+    val imageIngredientsUrl: String?,
+
+    @SerializedName("image_nutrition_url")
+    val imageNutritionUrl: String?,
+
+    @SerializedName("image_packaging_url")
+    val imagePackagingUrl: String?
 )
