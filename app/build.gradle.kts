@@ -52,36 +52,42 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.text.google.fonts)
 
-    // 🧬 Lifecycle
+    // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // ⚙️ Koin (Dependency Injection)
+    // Koin (Dependency Injection)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 
-    // 💾 Room Database
+    // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.vision.common)
+    implementation(libs.play.services.mlkit.barcode.scanning)
     ksp(libs.androidx.room.compiler)
 
-    // 🖼️ Coil (Image Loading)
+    // Coil (Image Loading)
     implementation(libs.coil.compose)
 
-    // 🌐 Ktor (Networking)
+    // Ktor (Networking)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.client.logging)
+    implementation(libs.kotlinx.serialization.json)
 
-    // ⚡ Extras
+    // Extras
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.accompanist.permissions)
 
-    // 📸 CameraX
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // CameraX
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
@@ -94,6 +100,7 @@ dependencies {
 
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

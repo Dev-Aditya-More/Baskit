@@ -217,7 +217,23 @@ val surfaceContainerDarkHighContrast = Color(0xFF2E3036)
 val surfaceContainerHighDarkHighContrast = Color(0xFF393B41)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF45474C)
 
+val LightGreenGradientEnd = Color(0xFF96E6A1)
+val AppPrimary = Color(0xFF7ED957) // mid tone between both
 
+// BRAND BASE COLORS
+val BrandGreen = Color(0xFF00FF7F)       // neon fresh green (scanner + tech)
+val BrandGreenDark = Color(0xFF00C462)   // deeper version for dark mode
+val BrandLeaf = Color(0xFF3BAA3D)        // leafy natural green (secondary)
+val BrandLeafDark = Color(0xFF1F7A22)    // for dark mode secondary
+
+val BrandNeutral = Color(0xFFF3F6EB)     // grocery beige/cream/paper bag vibes
+val BrandNeutralDark = Color(0xFF1C1E18) // dark earthy tone
+
+val BrandBackgroundLight = Color(0xFFF8FFF0)  // fresh, grocery-store light
+val BrandBackgroundDark = Color(0xFF0B0F0B)   // almost-black with green tint
+
+val BrandSurfaceLight = Color.White
+val BrandSurfaceDark = Color(0xFF101410)      // charcoal greenish black
 
 
 
