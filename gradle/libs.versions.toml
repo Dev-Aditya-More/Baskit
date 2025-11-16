@@ -2,14 +2,17 @@
 accompanistPagerIndicators = "0.36.0"
 accompanistPermissions = "0.37.3"
 agp = "8.11.1"
-cameraCore = "1.5.0"
+cameraCore = "1.5.1"
 coilCompose = "2.7.0"
+converterGson = "3.0.0"
+coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.7"
-foundation = "1.9.2"
+foundation = "1.9.3"
 koinAndroid = "4.1.1"
 koinAndroidxCompose = "4.1.1"
 koinCore = "4.1.1"
 kotlin = "2.2.20"
+kotlinxSerializationJson = "1.9.0"
 ksp = "2.2.10-2.0.2"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -22,12 +25,15 @@ ktorClientLogging = "3.3.0"
 ktorSerializationKotlinxJson = "3.3.0"
 lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
-composeBom = "2025.09.01"
+composeBom = "2025.10.00"
 lottieCompose = "6.6.10"
 materialIconsExtended = "1.7.8"
-roomCompiler = "2.8.1"
-uiTextGoogleFonts = "1.9.2"
+retrofit = "3.0.0"
+roomCompiler = "2.8.2"
+uiTextGoogleFonts = "1.9.3"
 navigationCompose = "2.9.5"
+visionCommon = "17.3.0"
+playServicesMlkitBarcodeScanning = "18.3.1"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerIndicators" }
@@ -40,6 +46,7 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
@@ -47,6 +54,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -64,6 +72,7 @@ androidx-compose-ui-text-google-fonts = { group = "androidx.compose.ui", name = 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
@@ -71,6 +80,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
+play-services-mlkit-barcode-scanning = { group = "com.google.android.gms", name = "play-services-mlkit-barcode-scanning", version.ref = "playServicesMlkitBarcodeScanning" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

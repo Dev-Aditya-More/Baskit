@@ -10,81 +10,72 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import javax.xml.validation.Schema
 
 private val lightScheme = lightColorScheme(
-    primary = primaryLight,
-    onPrimary = onPrimaryLight,
-    primaryContainer = primaryContainerLight,
-    onPrimaryContainer = onPrimaryContainerLight,
-    secondary = secondaryLight,
-    onSecondary = onSecondaryLight,
-    secondaryContainer = secondaryContainerLight,
-    onSecondaryContainer = onSecondaryContainerLight,
-    tertiary = tertiaryLight,
-    onTertiary = onTertiaryLight,
-    tertiaryContainer = tertiaryContainerLight,
-    onTertiaryContainer = onTertiaryContainerLight,
-    error = errorLight,
-    onError = onErrorLight,
-    errorContainer = errorContainerLight,
-    onErrorContainer = onErrorContainerLight,
-    background = backgroundLight,
-    onBackground = onBackgroundLight,
-    surface = surfaceLight,
-    onSurface = onSurfaceLight,
-    surfaceVariant = surfaceVariantLight,
-    onSurfaceVariant = onSurfaceVariantLight,
-    outline = outlineLight,
-    outlineVariant = outlineVariantLight,
-    scrim = scrimLight,
-    inverseSurface = inverseSurfaceLight,
-    inverseOnSurface = inverseOnSurfaceLight,
-    inversePrimary = inversePrimaryLight,
-    surfaceDim = surfaceDimLight,
-    surfaceBright = surfaceBrightLight,
-    surfaceContainerLowest = surfaceContainerLowestLight,
-    surfaceContainerLow = surfaceContainerLowLight,
-    surfaceContainer = surfaceContainerLight,
-    surfaceContainerHigh = surfaceContainerHighLight,
-    surfaceContainerHighest = surfaceContainerHighestLight,
+    primary = BrandGreen,
+    onPrimary = Color.Black,
+
+    primaryContainer = BrandLeaf.copy(alpha = 0.15f),
+    onPrimaryContainer = BrandLeafDark,
+
+    secondary = BrandLeaf,       // natural green
+    onSecondary = Color.White,
+
+    secondaryContainer = BrandLeaf.copy(alpha = 0.2f),
+    onSecondaryContainer = BrandLeafDark,
+
+    tertiary = BrandNeutral,     // grocery beige / natural
+    onTertiary = Color(0xFF2E2E2E),
+
+    background = BrandBackgroundLight,
+    onBackground = Color(0xFF111511),
+
+    surface = BrandSurfaceLight,
+    onSurface = Color.Black,
+
+    surfaceVariant = Color(0xFFE2E8D9),
+    onSurfaceVariant = Color(0xFF364036),
+
+    outline = Color(0xFF97A590),
+    outlineVariant = Color(0xFFC9D3C0),
+
+    error = Color(0xFFD64545),
+    onError = Color.White
 )
 
 private val darkScheme = darkColorScheme(
-    primary = primaryDark,
-    onPrimary = onPrimaryDark,
-    primaryContainer = primaryContainerDark,
-    onPrimaryContainer = onPrimaryContainerDark,
-    secondary = secondaryDark,
-    onSecondary = onSecondaryDark,
-    secondaryContainer = secondaryContainerDark,
-    onSecondaryContainer = onSecondaryContainerDark,
-    tertiary = tertiaryDark,
-    onTertiary = onTertiaryDark,
-    tertiaryContainer = tertiaryContainerDark,
-    onTertiaryContainer = onTertiaryContainerDark,
-    error = errorDark,
-    onError = onErrorDark,
-    errorContainer = errorContainerDark,
-    onErrorContainer = onErrorContainerDark,
-    background = backgroundDark,
-    onBackground = onBackgroundDark,
-    surface = surfaceDark,
-    onSurface = onSurfaceDark,
-    surfaceVariant = surfaceVariantDark,
-    onSurfaceVariant = onSurfaceVariantDark,
-    outline = outlineDark,
-    outlineVariant = outlineVariantDark,
-    scrim = scrimDark,
-    inverseSurface = inverseSurfaceDark,
-    inverseOnSurface = inverseOnSurfaceDark,
-    inversePrimary = inversePrimaryDark,
-    surfaceDim = surfaceDimDark,
-    surfaceBright = surfaceBrightDark,
-    surfaceContainerLowest = surfaceContainerLowestDark,
-    surfaceContainerLow = surfaceContainerLowDark,
-    surfaceContainer = surfaceContainerDark,
-    surfaceContainerHigh = surfaceContainerHighDark,
-    surfaceContainerHighest = surfaceContainerHighestDark,
+    primary = BrandGreenDark,
+    onPrimary = Color.Black,
+
+    primaryContainer = BrandGreenDark.copy(alpha = 0.2f),
+    onPrimaryContainer = BrandGreen,
+
+    secondary = BrandLeafDark,
+    onSecondary = Color.White,
+
+    secondaryContainer = BrandLeafDark.copy(alpha = 0.3f),
+    onSecondaryContainer = BrandLeaf,
+
+    tertiary = BrandNeutralDark,
+    onTertiary = Color(0xFFD9E0D2),
+
+    background = BrandBackgroundDark,
+    onBackground = Color(0xFFE8F2E8),
+
+    surface = BrandSurfaceDark,
+    onSurface = Color(0xFFE5FCE1),
+
+    surfaceVariant = Color(0xFF1A241A),
+    onSurfaceVariant = Color(0xFFA7B9A7),
+
+    outline = Color(0xFF2D3A2D),
+    outlineVariant = Color(0xFF465746),
+
+    error = Color(0xFFCF6679),
+    onError = Color.Black,
+
+    inversePrimary = BrandGreen,
 )
 
 private val mediumContrastLightColorScheme = lightColorScheme(
@@ -255,7 +246,7 @@ val unspecified_scheme = ColorFamily(
 fun BaskitTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable() () -> Unit
 ) {
   val colorScheme = when {
