@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Baskit" parent="android:Theme.Material.Light.NoActionBar"/>
-
-    <style name="Theme.Baskit.Splash" parent="Theme.SplashScreen"/>
-
+    <style name="Theme.Baskit" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
