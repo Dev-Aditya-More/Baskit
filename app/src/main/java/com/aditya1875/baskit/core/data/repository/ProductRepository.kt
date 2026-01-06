@@ -1,6 +1,6 @@
 package com.aditya1875.baskit.core.data.repository
 
-import com.aditya1875.baskit.core.data.models.Product
+import com.aditya1875.baskit.core.data.local.Product
 import com.aditya1875.baskit.core.data.remote.RetrofitInstance
 
 class ProductRepository {

@@ -1,4 +1,4 @@
-package com.aditya1875.baskit.core.data.models
+package com.aditya1875.baskit.core.data.local
 
 data class ImageSet(
     val front: String?,
