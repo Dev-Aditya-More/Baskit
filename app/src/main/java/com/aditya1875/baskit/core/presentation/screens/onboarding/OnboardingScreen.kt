@@ -1,9 +1,8 @@
-package com.aditya1875.baskit.core.presentation.screens
+package com.aditya1875.baskit.core.presentation.screens.onboarding
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,15 +29,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.aditya1875.baskit.core.presentation.components.OnboardingPage
-import com.aditya1875.baskit.core.presentation.components.getOnboardingPages
+import com.aditya1875.baskit.core.presentation.screens.onboarding.components.OnboardingPage
+import com.aditya1875.baskit.core.presentation.screens.onboarding.components.getOnboardingPages
 import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.AuroraBackground
 import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.NoiseOverlay
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

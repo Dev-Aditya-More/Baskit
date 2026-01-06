@@ -4,54 +4,57 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.Animatable
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import com.aditya1875.baskit.mlkit.ScanScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.aditya1875.baskit.Screen
+import com.aditya1875.baskit.core.presentation.screens.home.components.EmptyState
+import com.aditya1875.baskit.core.presentation.screens.home.components.ErrorState
+import com.aditya1875.baskit.core.presentation.screens.home.components.LoadingState
+import com.aditya1875.baskit.core.presentation.screens.home.components.ProductDetailsCard
+import com.aditya1875.baskit.core.presentation.screens.home.utils.ProductUiState
 import com.aditya1875.baskit.ui.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-
-    val viewModel = remember { ProductViewModel() }
+fun HomeScreen(
+    navController: NavController,
+    onScanRequested: () -> Unit
+) {
+    val viewModel: ProductViewModel = viewModel()
 
     var barcode by remember { mutableStateOf("") }
-    val product by viewModel.product.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
 
-    var showScanner by remember { mutableStateOf(false) }
     var hasCameraPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -63,88 +66,114 @@ fun HomeScreen() {
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        hasCameraPermission = granted
+    ) { granted -> hasCameraPermission = granted }
+
+    val scannedCode =
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.get<String>("barcode")
+
+    LaunchedEffect(scannedCode) {
+        scannedCode?.let { code ->
+            barcode = code
+            viewModel.fetchProduct(code)
+        }
     }
 
-    if (showScanner) {
 
-        ScanScreen(
-            onBarcodeDetected = { code ->
-                showScanner = false
-                barcode = code
-                viewModel.fetchProduct(code)
-            },
-            onCancel = {
-                showScanner = false
-            }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+
+        Text(
+            "Baskit",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 12.dp)
         )
-        return
-    }
 
-    Scaffold { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = barcode,
-                onValueChange = { barcode = it },
-                label = { Text("Enter barcode manually") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+        // Input Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
+        ) {
+            Column(Modifier.padding(16.dp)) {
 
-            Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = barcode,
+                    onValueChange = { barcode = it },
+                    label = { Text("Enter barcode manually") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            Button(
-                onClick = { viewModel.fetchProduct(barcode) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Fetch Product")
-            }
+                Spacer(Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Button(
-                onClick = {
-                    if (hasCameraPermission) {
-                        showScanner = true
-                    } else {
-                        launcher.launch(Manifest.permission.CAMERA)
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(
+                        onClick = {
+                            if (barcode.isNotEmpty()) navController.navigate(Screen.ProductLoading.pass(barcode))
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Fetch")
                     }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Scan with Camera")
+
+                    Spacer(Modifier.width(12.dp))
+
+                    Button(
+                        onClick = {
+                            if (hasCameraPermission) onScanRequested()
+                            else launcher.launch(Manifest.permission.CAMERA)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Scan")
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        when (uiState) {
+
+            ProductUiState.Idle -> {
+                EmptyState()
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            ProductUiState.Loading -> {
+                LoadingState()
+            }
 
-            if (isLoading) {
-                CircularProgressIndicator()
-            } else {
-                product?.let {
-                    AsyncImage(
-                        model = it.imageFrontUrl,
-                        contentDescription = "Product Image",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp)
-                    )
+            is ProductUiState.Success -> {
+                val product = (uiState as ProductUiState.Success).product
+                ProductDetailsCard(
+                    product = product,
+                    onProductClicked = {
+                        navController.navigate(
+                            Screen.ProductDetail.pass(product.code)
+                        )
+                    }
+                )
+            }
 
-                    Spacer(Modifier.height(12.dp))
+            ProductUiState.NotFound -> {
+                EmptyState(
+                    text = "Product not found. Try another barcode."
+                )
+            }
 
-                    Text("Name: ${it.productName ?: "N/A"}")
-                    Text("Brand: ${it.brand ?: "N/A"}")
-                    Text("Category: ${it.categories ?: "N/A"}")
-                    Text("Nutri-score: ${it.nutritionGrade ?: "N/A"}")
-                    Text("Ecoscore: ${it.ecoscoreGrade ?: "N/A"}")
-                }
+            is ProductUiState.Error -> {
+                val message = (uiState as ProductUiState.Error).message
+                ErrorState(message)
             }
         }
     }

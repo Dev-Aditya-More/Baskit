@@ -1,4 +1,4 @@
-package com.aditya1875.baskit.core.presentation.components
+package com.aditya1875.baskit.core.presentation.screens.onboarding.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
