@@ -3,7 +3,6 @@ package com.aditya1875.baskit.core.data.remote
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 object RetrofitInstance {
 
     private const val BASE_URL = "https://world.openfoodfacts.org/"

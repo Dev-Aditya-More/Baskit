@@ -1,6 +1,6 @@
 package com.aditya1875.baskit.core.data.remote
 
-import com.aditya1875.baskit.core.data.models.ProductResponse
+import com.aditya1875.baskit.core.data.local.ProductResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
