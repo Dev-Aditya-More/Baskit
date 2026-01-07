@@ -8,14 +8,19 @@ import com.aditya1875.baskit.core.presentation.screens.home.utils.ProductUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 class ProductViewModel(
-    private val repository: ProductRepository = ProductRepository()
+    private val repository: ProductRepository
 ) : ViewModel() {
 
     private val _uiState =
         MutableStateFlow<ProductUiState>(ProductUiState.Idle)
     val uiState: StateFlow<ProductUiState> = _uiState
+
+    init {
+        Log.d("ProductVM", "ViewModel created: $this")
+    }
 
     fun fetchProduct(barcode: String) {
         viewModelScope.launch {

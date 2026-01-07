@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -22,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,16 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.aditya1875.baskit.Screen
-import com.aditya1875.baskit.core.presentation.screens.home.components.EmptyState
-import com.aditya1875.baskit.core.presentation.screens.home.components.ErrorState
-import com.aditya1875.baskit.core.presentation.screens.home.components.LoadingState
-import com.aditya1875.baskit.core.presentation.screens.home.components.ProductDetailsCard
-import com.aditya1875.baskit.core.presentation.screens.home.utils.ProductUiState
-import com.aditya1875.baskit.ui.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,10 +38,7 @@ fun HomeScreen(
     navController: NavController,
     onScanRequested: () -> Unit
 ) {
-    val viewModel: ProductViewModel = viewModel()
-
     var barcode by remember { mutableStateOf("") }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
@@ -64,36 +51,25 @@ fun HomeScreen(
         )
     }
 
-    val launcher = rememberLauncherForActivityResult(
+    val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) { granted -> hasCameraPermission = granted }
-
-    val scannedCode =
-        navController.currentBackStackEntry
-            ?.savedStateHandle
-            ?.get<String>("barcode")
-
-    LaunchedEffect(scannedCode) {
-        scannedCode?.let { code ->
-            barcode = code
-            viewModel.fetchProduct(code)
-        }
+    ) { granted ->
+        hasCameraPermission = granted
     }
-
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
         Text(
-            "Baskit",
+            text = "Baskit",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
-        // Input Card
+        Spacer(modifier = Modifier.height(5.dp))
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -106,7 +82,7 @@ fun HomeScreen(
                 OutlinedTextField(
                     value = barcode,
                     onValueChange = { barcode = it },
-                    label = { Text("Enter barcode manually") },
+                    label = { Text("Enter barcode") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -115,65 +91,37 @@ fun HomeScreen(
 
                 Row(
                     Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+
                     Button(
+                        modifier = Modifier.weight(1f),
                         onClick = {
-                            if (barcode.isNotEmpty()) navController.navigate(Screen.ProductLoading.pass(barcode))
-                        },
-                        modifier = Modifier.weight(1f)
+                            if (barcode.isNotBlank()) {
+                                navController.navigate(
+                                    Screen.ProductLoading.pass(barcode)
+                                )
+                            }
+                        }
                     ) {
                         Text("Fetch")
                     }
 
-                    Spacer(Modifier.width(12.dp))
-
                     Button(
+                        modifier = Modifier.weight(1f),
                         onClick = {
-                            if (hasCameraPermission) onScanRequested()
-                            else launcher.launch(Manifest.permission.CAMERA)
-                        },
-                        modifier = Modifier.weight(1f)
+                            if (hasCameraPermission) {
+                                onScanRequested()
+                            } else {
+                                permissionLauncher.launch(
+                                    Manifest.permission.CAMERA
+                                )
+                            }
+                        }
                     ) {
                         Text("Scan")
                     }
                 }
-            }
-        }
-
-        Spacer(Modifier.height(24.dp))
-
-        when (uiState) {
-
-            ProductUiState.Idle -> {
-                EmptyState()
-            }
-
-            ProductUiState.Loading -> {
-                LoadingState()
-            }
-
-            is ProductUiState.Success -> {
-                val product = (uiState as ProductUiState.Success).product
-                ProductDetailsCard(
-                    product = product,
-                    onProductClicked = {
-                        navController.navigate(
-                            Screen.ProductDetail.pass(product.code)
-                        )
-                    }
-                )
-            }
-
-            ProductUiState.NotFound -> {
-                EmptyState(
-                    text = "Product not found. Try another barcode."
-                )
-            }
-
-            is ProductUiState.Error -> {
-                val message = (uiState as ProductUiState.Error).message
-                ErrorState(message)
             }
         }
     }
