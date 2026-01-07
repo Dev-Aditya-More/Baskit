@@ -1,4 +1,4 @@
-package com.aditya1875.baskit.core.presentation.screens.home.components
+package com.aditya1875.baskit.core.presentation.screens.product.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
