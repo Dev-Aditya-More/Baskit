@@ -1,7 +1,10 @@
 package com.aditya1875.baskit.core.data.local
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Nutriments(
     @SerializedName("energy-kcal_100g")
     val energyKcal100g: Double?,
@@ -29,4 +32,4 @@ data class Nutriments(
 
     @SerializedName("sodium_100g")
     val sodium100g: Double?
-)
+) : Parcelable

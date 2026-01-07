@@ -1,7 +1,10 @@
 package com.aditya1875.baskit.core.data.local
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Product(
     @SerializedName("code")
     val code: String,
@@ -47,4 +50,5 @@ data class Product(
 
     @SerializedName("image_packaging_url")
     val imagePackagingUrl: String?
-)
+) : Parcelable
+

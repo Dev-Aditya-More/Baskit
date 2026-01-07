@@ -20,21 +20,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-            Log.e("CRASH", "Uncaught exception in ${thread.name}", throwable)
-        }
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        val controller = WindowCompat.getInsetsController(window, window.decorView)
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        controller.hide(WindowInsetsCompat.Type.navigationBars())
 
         setContent {
             BaskitTheme {
                 val navController = rememberNavController()
+
                 AppNavGraph(
                     navController = navController,
                     startDestination = Screen.Onboarding.route
@@ -42,5 +33,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }

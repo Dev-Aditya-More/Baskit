@@ -74,22 +74,17 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
             composable(Screen.ProductLoading.route) { backStackEntry ->
                 val code = backStackEntry.arguments?.getString("code")!!
                 ProductLoadingScreen(
+                    navController = navController,
                     code = code,
-                    onProductFound = {
-                        navController.navigate(Screen.ProductDetail.pass(code)) {
-                            popUpTo(Screen.Home.route)
-                        }
-                    },
                     onProductNotFound = {
-                        navController.navigate(Screen.ProductNotFound.pass(code)) {
-                            popUpTo(Screen.Home.route)
-                        }
+                        navController.navigate(Screen.ProductNotFound.pass(code))
                     }
                 )
             }
-
             composable(Screen.ProductDetail.route) { backStackEntry ->
-                ProductDetailScreen()
+                ProductDetailScreen(
+                    navController = navController
+                )
             }
 
             composable(Screen.ProductNotFound.route) { backStackEntry ->
