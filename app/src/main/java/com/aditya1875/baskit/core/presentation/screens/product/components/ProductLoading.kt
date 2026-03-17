@@ -26,23 +26,14 @@ fun ProductLoadingScreen(
         viewModel.fetchProduct(code)
     }
 
-    var handled by remember { mutableStateOf(false) }
-
     LaunchedEffect(uiState) {
-        if (handled) return@LaunchedEffect
-
-        when (uiState) {
+        when (val state = uiState) {
             is ProductUiState.Success -> {
-                val product = (uiState as ProductUiState.Success).product
-
-                navController.currentBackStackEntry
-                    ?.savedStateHandle
-                    ?.set("product", product)
-
-                navController.navigate(Screen.ProductDetail.pass(product.code))
+                navController.navigate(Screen.ProductDetail.route) {
+                    popUpTo(Screen.Home.route)
+                }
             }
             ProductUiState.NotFound -> {
-                handled = true
                 onProductNotFound()
             }
             else -> Unit
@@ -50,16 +41,12 @@ fun ProductLoadingScreen(
     }
 
     when (uiState) {
-        ProductUiState.Loading -> LoadingState()
-
+        ProductUiState.Loading, ProductUiState.Idle -> LoadingState()
         is ProductUiState.Error -> {
-            ErrorState("Failed to load product")
+            val msg = (uiState as ProductUiState.Error).message
+            ErrorState(msg)
         }
-
-        else -> {
-            // Idle / Success / NotFound
-            // No UI needed here
-        }
+        else -> { /* Success/NotFound handled above via LaunchedEffect */ }
     }
 }
 

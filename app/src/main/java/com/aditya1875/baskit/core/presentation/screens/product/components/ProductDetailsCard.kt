@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -57,7 +58,15 @@ fun ProductDetailsCard(
             .then(modifier)
     ) {
 
-        Box {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(
+                    MaterialTheme.colorScheme.surface.copy(alpha = 0.12f)
+                )
+        ) {
             AsyncImage(
                 model = product.imageFrontUrl,
                 contentDescription = null,
@@ -67,7 +76,6 @@ fun ProductDetailsCard(
                 contentScale = ContentScale.Fit
             )
 
-            // Gradient fade into background
             Box(
                 modifier = Modifier
                     .matchParentSize()
@@ -90,7 +98,8 @@ fun ProductDetailsCard(
 
             Text(
                 text = productName,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             product.brand?.let {
@@ -98,7 +107,7 @@ fun ProductDetailsCard(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                 )
             }
 
@@ -113,7 +122,7 @@ fun ProductDetailsCard(
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f)
                     )
                 }
         }
@@ -123,7 +132,7 @@ fun ProductDetailsCard(
                 .padding(horizontal = 20.dp)
         ) {
 
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(12.dp))
 
             Text(
                 text = "Quick insights",
