@@ -15,11 +15,14 @@ import com.aditya1875.baskit.core.presentation.screens.onboarding.OnboardingScre
 import com.aditya1875.baskit.core.presentation.screens.product.ProductDetailScreen
 import com.aditya1875.baskit.core.presentation.screens.product.components.ProductLoadingScreen
 import com.aditya1875.baskit.core.presentation.screens.product.components.ProductNotFoundScreen
+import com.aditya1875.baskit.core.presentation.screens.splash.SplashScreen
 import com.aditya1875.baskit.mlkit.ScanScreen
 import com.aditya1875.baskit.ui.viewmodel.ProductViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 sealed class Screen(val route: String) {
+
+    object Splash : Screen("splash")
     object Onboarding : Screen("onboarding")
     object Home : Screen("home")
     object Scan : Screen("scan")
@@ -27,9 +30,7 @@ sealed class Screen(val route: String) {
     object ProductGraph : Screen("product_graph/{code}") {
         fun pass(code: String) = "product_graph/$code"
     }
-    object ProductLoading : Screen("loading/{code}") {
-        fun pass(code: String) = "loading/$code"
-    }
+    object ProductLoading : Screen("loading/{code}")
 
     object ProductDetail : Screen("detail")
 
@@ -45,6 +46,21 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
         startDestination = startDestination,
         modifier = Modifier.fillMaxSize()
     ) {
+        composable(Screen.Splash.route) {
+            SplashScreen(
+                onNavigateToOnboarding = {
+                    navController.navigate(Screen.Onboarding.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
+                onNavigateToHome = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Screen.Onboarding.route) {
             OnboardingScreen(
                 onFinished = {
@@ -58,8 +74,11 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
         composable(Screen.Home.route) {
             HomeScreen(
                 navController = navController,
-                onScanRequested = { barcode ->
-                    navController.navigate(Screen.ProductGraph.pass(barcode))
+                onFetchBarcode = { code ->
+                    navController.navigate(Screen.ProductGraph.pass(code))
+                },
+                onOpenCamera = {
+                    navController.navigate(Screen.Scan.route)
                 }
             )
         }

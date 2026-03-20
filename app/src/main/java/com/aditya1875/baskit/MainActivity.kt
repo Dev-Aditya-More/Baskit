@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
                 AppNavGraph(
                     navController = navController,
-                    startDestination = Screen.Onboarding.route
+                    startDestination = Screen.Splash.route
                 )
             }
         }

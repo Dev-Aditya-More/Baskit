@@ -28,7 +28,7 @@ data class OnboardingPage(
 fun getOnboardingPages(): List<OnboardingPage> = listOf(
     OnboardingPage(
         title = "Scan it",
-        description = "Instantly decode any barcode — groceries, snacks, supplements. Just point and shoot.",
+        description = "Scan any barcode instantly",
         icon = {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.qrscanner))
             LottieAnimation(
@@ -40,7 +40,7 @@ fun getOnboardingPages(): List<OnboardingPage> = listOf(
     ),
     OnboardingPage(
         title = "Know it",
-        description = "Nutrition grade, eco score, ingredients — everything you need to make a smart choice.",
+        description = "See nutrition, ingredients, and score",
         icon = {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.info))
             LottieAnimation(
@@ -52,7 +52,7 @@ fun getOnboardingPages(): List<OnboardingPage> = listOf(
     ),
     OnboardingPage(
         title = "Bask it",
-        description = "Build a smarter basket. Save products, track what you buy, shop with confidence.",
+        description = "Save products and shop smarter",
         icon = {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.grocery))
             LottieAnimation(

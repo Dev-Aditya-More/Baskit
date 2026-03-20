@@ -50,7 +50,6 @@ import com.aditya1875.baskit.core.presentation.screens.onboarding.components.Onb
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
-
 @Composable
 fun OnboardingPager(
     pages: List<OnboardingPage>,

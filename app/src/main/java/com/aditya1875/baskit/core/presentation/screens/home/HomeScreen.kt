@@ -45,7 +45,8 @@ import com.aditya1875.baskit.Screen
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    onScanRequested: (String) -> Unit
+    onFetchBarcode: (String) -> Unit,
+    onOpenCamera: () -> Unit
 ) {
     var barcode by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -63,7 +64,7 @@ fun HomeScreen(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         hasCameraPermission = granted
-        if (granted) onScanRequested(barcode)
+        if (granted) onOpenCamera()
     }
 
     var visible by remember { mutableStateOf(false) }
@@ -180,7 +181,7 @@ fun HomeScreen(
                                 onSearch = {
                                     focusManager.clearFocus()
                                     if (barcode.isNotBlank()) {
-                                        navController.navigate(Screen.ProductLoading.pass(barcode))
+                                        onFetchBarcode(barcode)
                                     }
                                 }
                             ),
@@ -199,7 +200,7 @@ fun HomeScreen(
                             onClick = {
                                 focusManager.clearFocus()
                                 if (barcode.isNotBlank()) {
-                                    navController.navigate(Screen.ProductLoading.pass(barcode))
+                                    onFetchBarcode(barcode)
                                 }
                             },
                             enabled = barcode.isNotBlank(),
@@ -258,7 +259,7 @@ fun HomeScreen(
             ) {
                 ScanButton(
                     onClick = {
-                        if (hasCameraPermission) onScanRequested(barcode)
+                        if (hasCameraPermission) onOpenCamera()
                         else permissionLauncher.launch(Manifest.permission.CAMERA)
                     }
                 )
