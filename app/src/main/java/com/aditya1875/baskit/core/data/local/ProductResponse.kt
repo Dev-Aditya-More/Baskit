@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductResponse(
     @SerializedName("code")
-    val code: String,
+    val code: String?,
 
     @SerializedName("status")
     val status: Int,

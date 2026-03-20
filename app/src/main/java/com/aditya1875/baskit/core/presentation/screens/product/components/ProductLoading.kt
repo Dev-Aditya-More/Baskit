@@ -15,7 +15,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductLoadingScreen(
-    viewModel: ProductViewModel = koinViewModel(),
+    viewModel: ProductViewModel,
     navController: NavHostController,
     code: String,
     onProductNotFound: () -> Unit
@@ -27,10 +27,10 @@ fun ProductLoadingScreen(
     }
 
     LaunchedEffect(uiState) {
-        when (val state = uiState) {
+        when (uiState) {
             is ProductUiState.Success -> {
-                navController.navigate(Screen.ProductDetail.route) {
-                    popUpTo(Screen.Home.route)
+                navController.navigate(Screen.ProductDetail.route){
+                    popUpTo(Screen.ProductLoading.route) { inclusive = true }
                 }
             }
             ProductUiState.NotFound -> {

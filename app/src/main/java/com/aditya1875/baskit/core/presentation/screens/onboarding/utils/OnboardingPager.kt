@@ -65,7 +65,6 @@ fun OnboardingPager(
         modifier = modifier.padding(bottom = 48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // App wordmark
         Spacer(Modifier.height(56.dp))
         Text(
             text = "baskit",
@@ -93,7 +92,6 @@ fun OnboardingPager(
 
         Spacer(Modifier.weight(0.3f))
 
-        // Pill-style page indicator
         PremiumPagerIndicator(
             count = pages.size,
             pagerState = pagerState
@@ -101,7 +99,6 @@ fun OnboardingPager(
 
         Spacer(Modifier.height(40.dp))
 
-        // CTA button
         AnimatedContent(
             targetState = isLastPage,
             transitionSpec = {
@@ -140,7 +137,6 @@ fun OnboardingPager(
             }
         }
 
-        // Skip — only show on non-last pages
         AnimatedVisibility(visible = !isLastPage) {
             TextButton(
                 onClick = onDone,
@@ -156,15 +152,12 @@ fun OnboardingPager(
     }
 }
 
-// ─── Page Content ────────────────────────────────────────────────────────────
-
 @Composable
 private fun OnboardingPageContent(
     page: OnboardingPage,
     pagerState: PagerState,
     pageIndex: Int
 ) {
-    // Parallax offset
     val pageOffset = (pagerState.currentPage - pageIndex) +
             pagerState.currentPageOffsetFraction
 
@@ -181,7 +174,6 @@ private fun OnboardingPageContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Lottie in a frosted pill
         Box(
             modifier = Modifier
                 .size(280.dp)

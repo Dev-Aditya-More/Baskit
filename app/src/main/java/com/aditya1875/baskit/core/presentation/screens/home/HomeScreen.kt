@@ -38,13 +38,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.aditya1875.baskit.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    onScanRequested: () -> Unit
+    navController: NavHostController,
+    onScanRequested: (String) -> Unit
 ) {
     var barcode by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -62,7 +63,7 @@ fun HomeScreen(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         hasCameraPermission = granted
-        if (granted) onScanRequested()
+        if (granted) onScanRequested(barcode)
     }
 
     var visible by remember { mutableStateOf(false) }
@@ -73,7 +74,6 @@ fun HomeScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Subtle top accent glow
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -223,7 +223,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // Divider with OR
             AnimatedVisibility(
                 visible = visible,
                 enter = fadeIn()
@@ -250,7 +249,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // Scan Button — large tap target
             AnimatedVisibility(
                 visible = visible,
                 enter = fadeIn() + slideInVertically(
@@ -260,7 +258,7 @@ fun HomeScreen(
             ) {
                 ScanButton(
                     onClick = {
-                        if (hasCameraPermission) onScanRequested()
+                        if (hasCameraPermission) onScanRequested(barcode)
                         else permissionLauncher.launch(Manifest.permission.CAMERA)
                     }
                 )

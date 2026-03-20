@@ -1,17 +1,12 @@
 package com.aditya1875.baskit.core.presentation.screens.onboarding
 
-import android.app.Activity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.aditya1875.baskit.core.presentation.screens.onboarding.components.getOnboardingPages
 import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.AuroraBackground
 import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.NoiseOverlay
@@ -21,7 +16,7 @@ import com.aditya1875.baskit.core.presentation.screens.onboarding.utils.Onboardi
 @Composable
 fun OnboardingScreen(onFinished: () -> Unit = {}) {
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         AuroraBackground(Modifier.matchParentSize())
         NoiseOverlay(Modifier.matchParentSize())
         OnboardingPager(

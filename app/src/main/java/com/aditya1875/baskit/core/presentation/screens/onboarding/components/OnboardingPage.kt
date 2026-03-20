@@ -19,8 +19,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
-// ─── Data ───────────────────────────────────────────────────────────────────
-
 data class OnboardingPage(
     val title: String,
     val description: String,
@@ -71,7 +69,6 @@ fun getOnboardingPages(): List<OnboardingPage> = listOf(
 @Composable
 fun OnboardingScreen(onFinished: () -> Unit = {}) {
     Box(Modifier.fillMaxSize()) {
-        // Layered background
         Box(
             Modifier
                 .matchParentSize()
