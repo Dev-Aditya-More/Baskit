@@ -35,6 +35,7 @@ navigationCompose = "2.9.7"
 visionCommon = "17.3.0"
 playServicesMlkitBarcodeScanning = "18.3.1"
 composeMaterial3 = "1.5.0-alpha15"
+lifecycleViewmodelKtx = "2.10.0"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerIndicators" }
@@ -84,6 +85,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
 play-services-mlkit-barcode-scanning = { group = "com.google.android.gms", name = "play-services-mlkit-barcode-scanning", version.ref = "playServicesMlkitBarcodeScanning" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

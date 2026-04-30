@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.vision.common)
     implementation(libs.play.services.mlkit.barcode.scanning)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     ksp(libs.androidx.room.compiler)
 
     // Coil (Image Loading)
