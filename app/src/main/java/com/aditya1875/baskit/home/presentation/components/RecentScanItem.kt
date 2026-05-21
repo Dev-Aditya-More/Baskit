@@ -1,6 +1,7 @@
 package com.aditya1875.baskit.home.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -48,65 +51,90 @@ fun RecentScanItem(scan: ScanEntity, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(20.dp))
             .background(CardBg)
-            .clickable(onClick = onClick)
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+            .border(1.dp, Color.White.copy(alpha = 0.04f), RoundedCornerShape(20.dp))
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Product image
+        // Left accent stripe
         Box(
             modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFF1A2A1A))
+                .width(3.dp)
+                .height(72.dp)
+                .background(
+                    Brush.verticalGradient(
+                        listOf(scoreColor, scoreColor.copy(alpha = 0.3f))
+                    )
+                )
+        )
+        Row(
+            modifier = Modifier
+                .weight(1f)
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            if (!scan.imageFrontUrl.isNullOrBlank()) {
-                AsyncImage(
-                    model = scan.imageFrontUrl,
-                    contentDescription = scan.productName,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(Color(0xFF1A2A1A))
+            ) {
+                if (!scan.imageFrontUrl.isNullOrBlank()) {
+                    AsyncImage(
+                        model = scan.imageFrontUrl,
+                        contentDescription = scan.productName,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    scan.productName.take(40),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = TextPrimary,
+                    maxLines = 2
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    relativeTime(scan.scannedAt),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = TextSecondary
                 )
             }
-        }
-
-        // Name + time
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                scan.productName.take(40),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                color = TextPrimary,
-                maxLines = 2
-            )
-            Spacer(Modifier.height(3.dp))
-            Text(
-                relativeTime(scan.scannedAt),
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
-            )
-        }
-
-        // Score pill
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(scoreBg)
-                .padding(horizontal = 10.dp, vertical = 7.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "${scan.score}\n100",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    lineHeight = 14.sp,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                ),
-                color = scoreColor
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(scoreBg)
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    "${scan.score}",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = (-0.5).sp
+                    ),
+                    color = scoreColor
+                )
+                Box(
+                    Modifier
+                        .size(width = 16.dp, height = 1.dp)
+                        .background(scoreColor.copy(alpha = 0.4f))
+                )
+                Text(
+                    "100",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 9.sp
+                    ),
+                    color = scoreColor.copy(alpha = 0.7f)
+                )
+            }
         }
     }
 }

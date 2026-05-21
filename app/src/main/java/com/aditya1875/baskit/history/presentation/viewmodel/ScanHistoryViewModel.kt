@@ -11,8 +11,17 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+data class WeeklyStats(
+    val avgScore: Int = 0,
+    val totalScans: Int = 0,
+    val healthyCount: Int = 0,
+    val unhealthyCount: Int = 0,
+    val totalCalories: Int = 0
+)
 
 class ScanHistoryViewModel(
     private val repository: ScanHistoryRepository
@@ -41,6 +50,22 @@ class ScanHistoryViewModel(
     val monthCount: StateFlow<Int> = repository
         .getMonthCount()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val weeklyStats: StateFlow<WeeklyStats> = repository
+        .getAll()
+        .map { all ->
+            val cutoff = System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000
+            val week = all.filter { it.scannedAt >= cutoff }
+            if (week.isEmpty()) WeeklyStats()
+            else WeeklyStats(
+                avgScore = week.map { it.score }.average().toInt(),
+                totalScans = week.size,
+                healthyCount = week.count { it.score > 60 },
+                unhealthyCount = week.count { it.score <= 60 },
+                totalCalories = week.mapNotNull { it.calories }.sum()
+            )
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), WeeklyStats())
 
     fun setFilter(f: HistoryFilter) { _filter.value = f }
 

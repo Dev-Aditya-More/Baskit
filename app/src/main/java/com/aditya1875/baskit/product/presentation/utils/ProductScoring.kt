@@ -49,3 +49,27 @@ fun buildVerdict(product: Product): VerdictInfo {
         else -> VerdictInfo("Avoid If Possible", Color(0xFFFF4444))
     }
 }
+
+fun verdictTagline(score: Int): String = when {
+    score >= 72 -> "Nutrient-rich, minimally processed"
+    score >= 52 -> "Reasonable balance with a few caveats"
+    score >= 35 -> "Notable concerns — eat in moderation"
+    else -> "Multiple red flags — consider alternatives"
+}
+
+fun gradeColor(grade: String?): Color = when (grade?.lowercase()) {
+    "a" -> Color(0xFF00C462)
+    "b" -> Color(0xFF7ED957)
+    "c" -> Color(0xFFFFC93C)
+    "d" -> Color(0xFFFF8A3D)
+    "e" -> Color(0xFFFF4444)
+    else -> Color(0xFF666666)
+}
+
+fun novaColor(group: Int?): Color = when (group) {
+    1 -> Color(0xFF00C462)
+    2 -> Color(0xFF7ED957)
+    3 -> Color(0xFFFF8A3D)
+    4 -> Color(0xFFFF4444)
+    else -> Color(0xFF666666)
+}
