@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Baskit" width="110"/>
+<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" alt="Baskit" width="110"/>
 
 # Baskit
 
